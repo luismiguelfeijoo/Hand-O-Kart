@@ -6,8 +6,33 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Mario Kart</title>
   <link rel="stylesheet" href="css/style.css">
+  <script src="https://cdn.jsdelivr.net/npm/handtrackjs/dist/handtrack.min.js"> </script>
 </head>
 <body>
-  <canvas id="canvas" width="1000px" height="500px"></canvas>
+
+    
+    <div class="start-display">
+      
+        <div id="updatenote" class="updatenote mt10"> loading game ...</div>
+        <button  id="trackbutton" class="mt10 trackbutton" type="button" disabled>
+                Toggle Video Control ...
+              </button>
+
+
+    </div>
+  
+  
+
+
+
+  <video class="videobox canvasbox" autoplay="autoplay" id="myvideo"></video>
+
+  <canvas id="canvas"></canvas>
+
+  
+  
+  <script src="js/player.js"></script>
+  <script src="js/game.js"></script>
+  <script src="js/index.js"></script>
 </body>
 </html>
