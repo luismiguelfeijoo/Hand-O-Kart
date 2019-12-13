@@ -41,13 +41,17 @@ const Game = {
     function refresh(timestamp) {
       delta = timestamp - past;
       past = timestamp;
-
+      
       Game.clear();
       Game.drawAll();
       Game.moveAll();
 
-      if ((timestamp/50) > count )  {
-        Game.runDetection()
+      
+      
+    
+      if ((timestamp/100) > count )  { //this is rendering the hand at 15fps aprox
+        console.log("hola")
+        Game.runDetection();
         count ++;
       }
       window.requestAnimationFrame(refresh)
@@ -57,7 +61,7 @@ const Game = {
   },
 
   reset: function() {
-    //this.background = new Background(this.ctx, this.width, this.height);
+    this.background = new Background(this.ctx, this.width, this.height);
     this.player = new Player(this.ctx, this.width, this.height);
   },
 
@@ -66,20 +70,22 @@ const Game = {
   },
 
   drawAll: function() {
-    this.player.draw(this.midval);
+    this.background.draw();
+    this.player.draw();
   },
 
   moveAll: function() {
+    this.player.move(this.midval)
   },
 
   runDetection: function() {
     model.detect(this.video).then(predictions => {
       // console.log("Predictions: ", predictions);
       // get the middle x value of the bounding box and map to paddle location
-      //model.renderPredictions(predictions, canvas, context, video);
+      //this is the renderer of the library  -->//model.renderPredictions(predictions, canvas, context, video);
       if (predictions[0]) {
         this.midval = predictions[0].bbox[0] + (predictions[0].bbox[2] / 2)
-        console.log(this.midval)
+        //console.log(this.midval)
         //gamex = document.body.clientWidth * (midval / video.width)
         //updatePaddleControl(gamex)
         //console.log('Predictions: ', gamex);
