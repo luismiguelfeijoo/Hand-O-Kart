@@ -12,13 +12,14 @@ class Player {
     this.sWidth = 46;
     this.sHeight = 46;
 
-    this.posX =  0;
+    this.posX =  this.gameWidth / 2 ;
     this.posY = this.gameHeight - this.height;
 
     this.image = new Image();
     this.image.src = "./img/Mario Kart.png";
 
     this.border = 0;
+    this.targetX =  this.gameWidth / 2 
 
     this.vx = 10
   }
@@ -29,19 +30,27 @@ class Player {
     this.ctx.drawImage(this.image, this.sx, this.sy, this.sWidth, this.sHeight, this.posX, this.posY, this.width, this.height);
   }
 
-  move(posX) {
-    this.posX = posX
+  move(handX) {
+    if (handX) {
+      this.targetX = handX
+      console.log(handX)
+    } else {
+      this.targetX = this.posX
+    }
+    //this.posX = targetX
+    this.posX += ((this.targetX - this.posX) * 0.1)
     /*
     if (this.posX <= 0) {
       this.posX = 0
     } else if ((this.posX + this.width) >= this.gameWidth) {
       (this.posX + this.width) >= this.gameWidth
-    }
-    if (posX > this.posX) {
-      this.posX += this.vx;
-    } else if (posX < this.posX) {
-      this.posX -= this.vx
-    }
-    */
+    }*/
+    /*
+    if (this.targetX > this.posX) {
+      this.posX += ((this.targetX - this.posX) * 0.1)
+    } else if (this.targetX < this.posX) {
+      this.posX += ((this.targetX - this.posX) * 0.1)
+    }*/
+    
   }
 }
