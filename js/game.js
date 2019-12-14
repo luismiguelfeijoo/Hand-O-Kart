@@ -38,16 +38,17 @@ const Game = {
   start: function() {
     this.reset();
     let past = 0;
-    let last = 5000
+    let last = 8000 //delay seconds
     let delta = 0;
     let count = 0; //to set a delay on runDetection()
     let proof = -20;
+    let dif = 5;
     function refresh(timestamp) {
       delta = timestamp - past;
       past = timestamp;
 
       Game.clear();
-      Game.drawAll();
+      Game.drawAll(timestamp);
       Game.moveAll();
 
       if (timestamp / 100 > count) {
@@ -62,10 +63,11 @@ const Game = {
       }
       proof = secondsCounter;
       */
-
-      if(last && timestamp - last >= 2*1000) {
+      console.log(timestamp, last)
+      if(timestamp - last >= dif*1000) {
+        if (dif > 1) dif -= .5;
         last = timestamp;
-        Game.generateObstacles();
+        Game.generateObstacles(timestamp);
       }
 
       Game.clearObstacles();
@@ -87,9 +89,9 @@ const Game = {
     this.ctx.clearRect(0, 0, this.width, this.height);
   },
 
-  drawAll: function() {
+  drawAll: function(timestamp) {
     this.background.draw();
-    this.obstacles.forEach(obstacle => obstacle.draw());
+    this.obstacles.forEach(obstacle => obstacle.draw(timestamp));
     this.player.draw();
   },
 
@@ -98,14 +100,14 @@ const Game = {
     this.obstacles.forEach(obstacle => obstacle.move());
   },
 
-  generateObstacles: function() {
+  generateObstacles: function(timestamp) {
     console.log("generating obs");
-    this.obstacles.push(new Obstacle(this.ctx, this.width, this.height));
+    this.obstacles.push(new Obstacle(this.ctx, this.width, this.height, timestamp));
   },
 
   clearObstacles: function() {
     this.obstacles = this.obstacles.filter(
-      obstacle => obstacle.posY <= Game.height
+      obstacle => obstacle.posY + obstacle.height/2 <= this.height
     );
   },
 

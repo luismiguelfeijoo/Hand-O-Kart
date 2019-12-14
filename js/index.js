@@ -12,6 +12,7 @@ window.onload = function() {
     // detect objects in the image.
     model = lmodel
     updateNote.innerText = "Ready to play!"
+    trackButton.classList.toggle("enabled")
     trackButton.disabled = false
 
     /*$(".overlaycenter").animate({
