@@ -20,6 +20,8 @@ const Game = {
     scoreThreshold: 0.8 // confidence threshold for predictions.
   },
 
+  over: false,
+
   init: function() {
     this.canvas = document.getElementById("canvas");
     this.ctx = this.canvas.getContext("2d");
@@ -36,6 +38,7 @@ const Game = {
   start: function() {
     this.reset();
     let past = 0;
+    let last = 5000
     let delta = 0;
     let count = 0; //to set a delay on runDetection()
     let proof = -20;
@@ -52,16 +55,23 @@ const Game = {
         Game.runDetection();
         count++;
       }
-
+      /*
       let secondsCounter = Math.floor(timestamp / 2000);
       if (secondsCounter === proof + 1) {
         Game.generateObstacles();
       }
       proof = secondsCounter;
+      */
+
+      if(last && timestamp - last >= 2*1000) {
+        last = timestamp;
+        Game.generateObstacles();
+      }
 
       Game.clearObstacles();
-
-      window.requestAnimationFrame(refresh);
+      
+      if(Game.isCollision()) {Game.gameOver()};
+      if(!Game.over) window.requestAnimationFrame(refresh);
       //if (!Game.over) {window.requestAnimationFrame(refresh)}
     }
     window.requestAnimationFrame(refresh);
@@ -97,6 +107,17 @@ const Game = {
     this.obstacles = this.obstacles.filter(
       obstacle => obstacle.posY <= Game.height
     );
+  },
+
+  isCollision: function() {
+    // return this.obstacles.some(obs => (this.player.posX + this.player.width > obs.posX && obs.posX + obs.width > this.player.posX ))
+    return this.obstacles.some(obs => (this.player.posX + this.player.width > obs.posX - obs.width/2 && obs.posX + obs.width/2 > this.player.posX && (obs.width >= 80 && obs.width <= 90)))
+  },
+
+  gameOver: function() {
+    //console.log("over")
+    this.over = true;
+    //window.cancelAnimationFrame(Game.request);
   },
 
   runDetection: function() {

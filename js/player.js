@@ -27,13 +27,15 @@ class Player {
   draw() {  
     //this.ctx.drawImage(this.image,this.posX,this.posY);
     //console.log(this.ctx)
+    this.ctx.save();
+    this.ctx.globalAlpha = 0.7;
     this.ctx.drawImage(this.image, this.sx, this.sy, this.sWidth, this.sHeight, this.posX, this.posY, this.width, this.height);
+    this.ctx.restore();
   }
 
   move(handX) {
     if (handX) {
       this.targetX = handX
-      console.log(handX)
     } else {
       this.targetX = this.posX
     }

@@ -14,9 +14,9 @@ class Obstacle {
     this.sHeight = 15;
 
     this.posX = (Math.random() * (this.gameWidth - this.width))
-    this.posY = this.gameHeight - 200;
+    this.posY = this.gameHeight - 160;
 
-    this.vy = 5;
+    this.vy = 2;
     this.vz = 5;
 
     this.image = new Image();
@@ -30,10 +30,11 @@ class Obstacle {
     this.ctx.drawImage(this.image, this.sx, this.sy, this.sWidth, this.sHeight, this.width/2, this.height/2, this.width, this.height);
     this.ctx.closePath();
     this.ctx.restore();
+    console.log(this.width)
   }
 
   move() {
-    if (this.height <= this.gameHeight) {
+    if (this.posY <= this.gameHeight ) {
       this.posY += this.vy
       this.width += this.vz;
       this.height += this.vz;
