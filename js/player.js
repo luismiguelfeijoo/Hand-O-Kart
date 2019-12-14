@@ -22,6 +22,8 @@ class Player {
     this.targetX =  this.gameWidth / 2 
 
     this.vx = 10
+
+    this.lives = 3;
   }
 
   draw() {  

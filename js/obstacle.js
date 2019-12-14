@@ -42,8 +42,8 @@ class Obstacle {
       this.ctx.lineTo(this.posX - 25, this.gameHeight - 300);
       this.ctx.closePath();
       this.ctx.stroke();
-      this.ctx.restore()
-      this.ctx.fill()
+      this.ctx.restore();
+      this.ctx.fill();
       //this.ctx.drawImage(this.image, this.sx, this.sy, this.sWidth, this.sHeight, this.posX, this.gameHeight - 300, 50, 50)
     } else {
       this.ctx.save()

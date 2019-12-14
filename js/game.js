@@ -21,6 +21,7 @@ const Game = {
   },
 
   over: false,
+  obstacleCollision: 0,
 
   init: function() {
     this.canvas = document.getElementById("canvas");
@@ -63,7 +64,7 @@ const Game = {
       }
       proof = secondsCounter;
       */
-      console.log(timestamp, last)
+      //console.log(timestamp, last)
       if(timestamp - last >= dif*1000) {
         if (dif > 1) dif -= .5;
         last = timestamp;
@@ -72,7 +73,10 @@ const Game = {
 
       Game.clearObstacles();
       
-      if(Game.isCollision()) {Game.gameOver()};
+      if(Game.isCollision()) {
+        console.log("hola")
+        Game.gameOver()
+      };
       if(!Game.over) window.requestAnimationFrame(refresh);
       //if (!Game.over) {window.requestAnimationFrame(refresh)}
     }
@@ -101,7 +105,7 @@ const Game = {
   },
 
   generateObstacles: function(timestamp) {
-    console.log("generating obs");
+    //console.log("generating obs");
     this.obstacles.push(new Obstacle(this.ctx, this.width, this.height, timestamp));
   },
 
@@ -113,12 +117,25 @@ const Game = {
 
   isCollision: function() {
     // return this.obstacles.some(obs => (this.player.posX + this.player.width > obs.posX && obs.posX + obs.width > this.player.posX ))
-    return this.obstacles.some(obs => (this.player.posX + this.player.width > obs.posX - obs.width/2 && obs.posX + obs.width/2 > this.player.posX && (obs.width >= 80 && obs.width <= 90)))
+    return this.obstacles.some(obs => {
+      if (Game.obstacleCollision != obs.creationTime) {
+        if ((this.player.posX + this.player.width > obs.posX - obs.width/2 && obs.posX + obs.width/2 > this.player.posX && (obs.width >= 80 && obs.width <= 90))) {
+          Game.obstacleCollision = obs.creationTime
+          console.log("collision")
+          this.player.lives --;
+          console.log(this.player.lives)
+          return true
+        } else {
+          return false
+        }
+      } 
+    })
   },
 
   gameOver: function() {
-    //console.log("over")
-    this.over = true;
+    if (this.player.lives === 0) {
+      this.over = true;
+    } 
     //window.cancelAnimationFrame(Game.request);
   },
 
