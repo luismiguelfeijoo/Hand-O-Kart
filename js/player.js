@@ -31,8 +31,8 @@ class Player {
 
   move(posX) {
     this.posX = posX
-    
-    /*if (this.posX <= 0) {
+    /*
+    if (this.posX <= 0) {
       this.posX = 0
     } else if ((this.posX + this.width) >= this.gameWidth) {
       (this.posX + this.width) >= this.gameWidth
