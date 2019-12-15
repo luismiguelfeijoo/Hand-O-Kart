@@ -37,6 +37,7 @@ const Game = {
     this.canvas.height = this.height;
     this.video.width = this.width;
     this.video.height = this.height;
+    this.alpha = 0;
     this.start();
   },
 
@@ -145,6 +146,8 @@ const Game = {
   gameOver: function() {
     if (this.player.lives === 0) {
       this.lastAnimation = true;
+      toggleVideo();
+      updateNote.innerText = "Game Over";
     } 
     //window.cancelAnimationFrame(Game.request);
   },
