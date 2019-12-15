@@ -11,10 +11,10 @@ class Obstacle {
     this.width = 0;
     this.height = 0;
 
-    this.sx = 395.5;
-    this.sy = 1.5;
-    this.sWidth = 15;
-    this.sHeight = 15;
+    this.sx = 0;
+    this.sy = 0;
+    this.sWidth = 30;
+    this.sHeight = 30;
 
     this.posX = (Math.random() * (this.gameWidth - this.width))
     this.posY = this.gameHeight - 160;
@@ -25,11 +25,16 @@ class Obstacle {
     this.accZ = 0.2;
 
     this.image = new Image();
-    this.image.src = "./img/Mario Kart.png"
+    this.image.src = "./img/items.png"
+
+    this.frames = 7;
+    this.frameIndex = 0;
+    this.frameSize = 30.5;
   }
 
   draw(timestamp) {
     this.currentTime = timestamp;
+    this.animate()
     //console.log(this.creationTime, this.currentTime)
     if(this.currentTime <= this.creationTime + 3000 && this.currentTime >= this.creationTime + 1000) {
       this.ctx.save()
@@ -49,7 +54,7 @@ class Obstacle {
       this.ctx.save()
       this.ctx.beginPath();
       this.ctx.translate(this.posX - this.width , this.posY)
-      this.ctx.drawImage(this.image, this.sx, this.sy, this.sWidth, this.sHeight, this.width/2, this.height/2, this.width, this.height);
+      this.ctx.drawImage(this.image, this.frameIndex * this.frameSize, this.sy, this.sWidth, this.sHeight, this.width/2, this.height/2, this.width, this.height);
       this.ctx.closePath();
       this.ctx.restore();
     }
@@ -69,6 +74,13 @@ class Obstacle {
         }
       }
     }
+    
+  }
+
+  animate() {
+    if (this.frameIndex < this.frames) {
+      this.frameIndex ++
+    } else {this.frameIndex = 0}
     
   }
 }
