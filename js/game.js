@@ -7,6 +7,7 @@ const Game = {
   fps: 60,
   framesCounter: 0,
   score: 0,
+  lives: undefined,
   midval: 0,
 
   model: null,
@@ -22,6 +23,9 @@ const Game = {
 
   over: false,
   obstacleCollision: 0,
+
+  lastAnimation: false,
+  alpha: 0,
 
   init: function() {
     this.canvas = document.getElementById("canvas");
@@ -77,6 +81,8 @@ const Game = {
         console.log("hola")
         Game.gameOver()
       };
+      if(Game.lastAnimation) {Game.finalAnimation()}
+      if(Game.alpha >= 1) {Game.over = true}
       if(!Game.over) window.requestAnimationFrame(refresh);
       //if (!Game.over) {window.requestAnimationFrame(refresh)}
     }
@@ -87,6 +93,8 @@ const Game = {
     this.background = new Background(this.ctx, this.width, this.height);
     this.player = new Player(this.ctx, this.width, this.height);
     this.obstacles = [];
+    ScoreBoard.init(this.ctx, this.score, this.player.lives, this.width, this.height);
+    BlackBackground.init(this.ctx,this.width,this.height)
   },
 
   clear: function() {
@@ -97,6 +105,8 @@ const Game = {
     this.background.draw();
     this.obstacles.forEach(obstacle => obstacle.draw(timestamp));
     this.player.draw();
+    ScoreBoard.draw(this.score, this.player.lives)
+    BlackBackground.draw(this.alpha)
   },
 
   moveAll: function() {
@@ -134,9 +144,17 @@ const Game = {
 
   gameOver: function() {
     if (this.player.lives === 0) {
-      this.over = true;
+      this.lastAnimation = true;
     } 
     //window.cancelAnimationFrame(Game.request);
+  },
+
+  finalAnimation: function() {
+    if (Game.alpha < 1) {
+      Game.alpha += .01;
+    } else {
+      this.over = true
+    }
   },
 
   runDetection: function() {
