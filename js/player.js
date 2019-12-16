@@ -87,16 +87,17 @@ class Player {
       if (delta > 10 && this.frameIndex < this.frames) {
         this.frameIndex ++;
         console.log("Delta >", this.frameIndex)
-      } else if (this.frameIndex > 0) {
+      } else if (delta <= 5 && this.frameIndex > 0) {
         this.frameIndex --;
       }
     } else if (delta < 0 ) {
       this.mirror = false
       if (delta < -10 && this.frameIndex < this.frames) {
-        console.log("Delta <")
+        console.log("Delta <", this.frameIndex)
         this.frameIndex ++;
-      } else if (this.frameIndex > 0){
+      } else if (delta >= -5 && this.frameIndex > 0){
         this.frameIndex --;
+        console.log("Delta <", this.frameIndex)
       }
     }
     
