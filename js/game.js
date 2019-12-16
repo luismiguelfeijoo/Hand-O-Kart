@@ -27,6 +27,8 @@ const Game = {
   lastAnimation: false,
   alpha: 0,
 
+  crash: 0,
+
   init: function() {
     this.canvas = document.getElementById("canvas");
     this.ctx = this.canvas.getContext("2d");
@@ -54,8 +56,10 @@ const Game = {
       past = timestamp;
 
       Game.clear();
+      Game.player.crash(Game.crash)
       Game.drawAll(timestamp);
       Game.moveAll();
+      if (Game.crash > 0) Game.crash --;
 
       if (timestamp / 100 > count) {
         //this is rendering the hand at 15fps aprox
@@ -135,6 +139,7 @@ const Game = {
           console.log("collision")
           this.player.lives --;
           console.log(this.player.lives)
+          this.crash = 20;
           return true
         } else {
           return false

@@ -5,15 +5,15 @@ class Background {
     this.height = height;
 
     this.image = new Image();
-    this.image.src = "./img/Track Backgrounds.png";
+    this.image.src = "./img/mario-background.png";
 
     this.posX = 0;
     this.posY = 0;
 
-    this.sx = 772;
-    this.sy = 4960;
-    this.sWidth = 256;
-    this.sHeight = 128;
+    this.sx = 50//772;
+    this.sy = 20//4960;
+    this.sWidth = 400//256;
+    this.sHeight = 200//128;
   }
 
   draw() {

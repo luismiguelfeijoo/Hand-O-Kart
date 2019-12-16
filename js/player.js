@@ -103,4 +103,14 @@ class Player {
     
   }
 
+  crash(crash) {
+    if (crash) {
+      if (crash % 2 === 0 && crash) {
+        this.frameIndex = 30;
+      } else {
+        this.frameIndex = 0
+      }
+    }
+  }
+
 }
