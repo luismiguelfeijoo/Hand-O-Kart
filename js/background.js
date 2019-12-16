@@ -11,7 +11,7 @@ class Background {
     this.posY = 0;
 
     this.sx = 50//772;
-    this.sy = 20//4960;
+    this.sy = 10//4960;
     this.sWidth = 400//256;
     this.sHeight = 200//128;
   }

@@ -125,8 +125,9 @@ const Game = {
   },
 
   clearObstacles: function() {
+    //console.log(this.obstacles)
     this.obstacles = this.obstacles.filter(
-      obstacle => obstacle.posY + obstacle.height/2 <= this.height
+      obstacle => (obstacle.posY + obstacle.height/2 <= this.height)
     );
   },
 
