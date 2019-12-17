@@ -24,7 +24,7 @@ class Obstacle {
     this.vz = 0;
 
     this.accX = this.accelerationX();
-    this.accY = 0.1;
+    this.accY = 0.15;
     this.accZ = 0.05 // 0.2;
 
     this.image = new Image();
