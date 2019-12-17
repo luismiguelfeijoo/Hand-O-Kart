@@ -16,6 +16,8 @@ class Obstacle {
     this.sWidth = 30;
     this.sHeight = 30;
 
+    this.section = this.gameWidth/3
+
     this.posX = (Math.random() * (this.gameWidth - this.width - 1080)) + 550, //min 500, max gamewidth - 650 (1440-650 = 790)
     this.posY = this.gameHeight - 400,
 
@@ -33,6 +35,7 @@ class Obstacle {
     this.frames = 7;
     this.frameIndex = 0;
     this.frameSize = 30.5;
+
   }
 
   draw(timestamp) {
@@ -93,23 +96,25 @@ class Obstacle {
   }
 
   velocityX() {
-    
-    if (this.posX >= 500 && this.posX < 600) {
-      return -3;
-    } else  if (this.posX <= 750) {
-      return 0;
+    if (this.posX >= this.section && this.posX < this.section + this.section/3) {
+      //console.log("section 1")
+      return -1.5;
+    } else  if (this.posX >= this.section + 2*this.section/3 - this.section/9) {
+      //console.log("section 2")
+      return 1
     } else {
-      return 1;
+      //console.log("section 3")
+      return 0;
     }
   }
 
   accelerationX() {
     if (this.vx > 0) {
       return 0.16;
-    } else if (this.vx = 0) {
+    } else if (this.vx == 0) {
       return 0;
     } else {
-      return -0.12;
+      return -0.18;
     }
   }
 }
