@@ -43,12 +43,14 @@ class Player {
       
       this.animate()
       this.ctx.globalAlpha = .8;
-      this.ctx.drawImage(this.image, this.sx, this.frameIndex * this.frameSize, this.sWidth, this.sHeight, this.posX, this.posY, this.width, this.height);
+      this.ctx.translate(this.posX - this.width/2,this.posY)
+      this.ctx.drawImage(this.image, this.sx, this.frameIndex * this.frameSize, this.sWidth, this.sHeight, 0, 0, this.width, this.height);
     } else {
   
       this.animate()
       this.ctx.globalAlpha = .8;
-      this.ctx.drawImage(this.imageMirror, this.sx, this.frameIndex * this.frameSize, this.sWidth, this.sHeight, this.posX, this.posY, this.width, this.height);
+      this.ctx.translate(this.posX -this.width/2,this.posY)
+      this.ctx.drawImage(this.imageMirror, this.sx, this.frameIndex * this.frameSize, this.sWidth, this.sHeight, 0, 0, this.width, this.height);
       
     }
     this.ctx.restore();
