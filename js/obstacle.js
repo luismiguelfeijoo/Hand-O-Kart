@@ -121,4 +121,5 @@ class Obstacle {
       return -50;
     }
   }
+
 }

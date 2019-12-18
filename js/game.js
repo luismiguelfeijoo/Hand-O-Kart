@@ -28,6 +28,7 @@ const Game = {
   alpha: 0,
 
   crash: 0,
+  crashIndex: 0,
   celebrationAlpha: 0,
 
   init: function() {
@@ -148,6 +149,7 @@ const Game = {
             this.score ++
             this.player.message = "+1"
             this.celebrationAlpha = 1;
+            this.player.celebrationSound.play();
           }
           return false
         }
@@ -169,6 +171,8 @@ const Game = {
           this.crash = 20;
           this.player.message = "-1"
           this.celebrationAlpha = 1;
+          this.player.crashSound[this.crashIndex].play();
+          this.crashIndex ++
           return true
         } else {
           return false
