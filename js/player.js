@@ -27,6 +27,7 @@ class Player {
     this.targetX =  this.gameWidth / 2 
 
     this.vx = 10
+    this.vy = 0
 
     this.lives = 3;
 
@@ -36,8 +37,7 @@ class Player {
   }
 
   draw() {  
-    //this.ctx.drawImage(this.image,this.posX,this.posY);
-    //console.log(this.ctx) 
+
     this.ctx.save();
     if (!this.mirror) {
       
@@ -46,15 +46,12 @@ class Player {
       this.ctx.translate(this.posX - this.width/2,this.posY)
       this.ctx.drawImage(this.image, this.sx, this.frameIndex * this.frameSize, this.sWidth, this.sHeight, 0, 0, this.width, this.height);
     } else {
-  
       this.animate()
       this.ctx.globalAlpha = .8;
       this.ctx.translate(this.posX -this.width/2,this.posY)
       this.ctx.drawImage(this.imageMirror, this.sx, this.frameIndex * this.frameSize, this.sWidth, this.sHeight, 0, 0, this.width, this.height);
-      
     }
     this.ctx.restore();
-    
   }
 
   move(handX) {
@@ -115,4 +112,13 @@ class Player {
     }
   }
 
+  celebration(celebration) {
+    if (celebration) {
+      if (celebration % 5 === 0 && celebration) {
+        this.posY = this.posY - 10;
+      } else {
+        this.posY = this.gameHeight - this.height
+      }
+    }
+  }
 }

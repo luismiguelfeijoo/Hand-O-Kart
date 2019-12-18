@@ -28,6 +28,7 @@ const Game = {
   alpha: 0,
 
   crash: 0,
+  celebration: 0,
 
   init: function() {
     this.canvas = document.getElementById("canvas");
@@ -56,10 +57,15 @@ const Game = {
       past = timestamp;
 
       Game.clear();
+
       Game.player.crash(Game.crash)
-      Game.drawAll(timestamp);
-      Game.moveAll();
       if (Game.crash > 0) Game.crash --;
+      Game.player.celebration(Game.celebration)
+      if (Game.celebration > 0) Game.celebration --;
+
+      Game.drawAll(timestamp);
+      Game.moveAll(delta);
+
 
       if (timestamp / 100 > count) {
         //this is rendering the hand at 15fps aprox
@@ -77,19 +83,19 @@ const Game = {
       if(timestamp - last >= dif*1000) {
         if (dif > 1) dif -= .5;
         last = timestamp;
-        Game.generateObstacles(timestamp);
+        Game.generateObstacles(timestamp, delta);
       }
 
       Game.clearObstacles();
       
       if(Game.isCollision()) {
-        console.log("hola")
+        //console.log("hola")
         Game.gameOver()
       };
+
       if(Game.lastAnimation) {Game.finalAnimation()}
       if(Game.alpha >= 1) {Game.over = true}
       if(!Game.over) window.requestAnimationFrame(refresh);
-      //if (!Game.over) {window.requestAnimationFrame(refresh)}
     }
     window.requestAnimationFrame(refresh);
   },
@@ -114,20 +120,31 @@ const Game = {
     BlackBackground.draw(this.alpha)
   },
 
-  moveAll: function() {
+  moveAll: function(delta) {
     this.player.move(this.midval);
-    this.obstacles.forEach(obstacle => obstacle.move());
+    this.obstacles.forEach(obstacle => obstacle.move(delta));
   },
 
-  generateObstacles: function(timestamp) {
+  generateObstacles: function(timestamp, delta) {
     //console.log("generating obs");
     this.obstacles.push(new Obstacle(this.ctx, this.width, this.height, timestamp));
   },
 
   clearObstacles: function() {
-    //console.log(this.obstacles)
+    //console.log(this.obstacles) 
     this.obstacles = this.obstacles.filter(
-      obstacle => (obstacle.posY + obstacle.height/2 <= this.height)
+      obstacle => {
+        if (obstacle.posY + obstacle.height/2 <= this.height) {
+          return true
+        } else {
+          if (!obstacle.crash) {
+            this.score ++
+            this.celebration = 20;
+          }
+          return false
+        }
+      }
+
     );
   },
 
@@ -135,11 +152,12 @@ const Game = {
     // return this.obstacles.some(obs => (this.player.posX + this.player.width > obs.posX && obs.posX + obs.width > this.player.posX ))
     return this.obstacles.some(obs => {
       if (Game.obstacleCollision != obs.creationTime) {
-        if ((this.player.posX + this.player.width > obs.posX - obs.width/2 && obs.posX + obs.width/2 > this.player.posX && (obs.width >= 80 && obs.width <= 90))) {
+        if ((this.player.posX + this.player.width > obs.posX - obs.width/2 && obs.posX + obs.width/2 > this.player.posX && (obs.width >= 90 && obs.width <= 100))) {
           Game.obstacleCollision = obs.creationTime
-          console.log("collision")
+          //console.log("collision")
           this.player.lives --;
-          console.log(this.player.lives)
+          obs.crash = true
+          //console.log(this.player.lives)
           this.crash = 20;
           return true
         } else {
