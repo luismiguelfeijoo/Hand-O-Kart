@@ -48,8 +48,17 @@ class Player {
 
     //this.crashIndex = 0
 
-    this.celebrationSound = new Audio();
-    this.celebrationSound.src = "./sounds/whoo-hoo.wav"
+    this.celebrationSound = [
+      new Audio(),
+      new Audio(),
+      new Audio()
+    ];
+
+    this.celebrationSound[0].src = "./sounds/whoo-hoo.wav"
+    this.celebrationSound[1].src = "./sounds/whee-hee.wav"
+    this.celebrationSound[2].src = "./sounds/okee.wav"
+
+    
   }
 
   draw() {  
@@ -148,5 +157,9 @@ class Player {
         this.posY = this.gameHeight - this.height
       }
     }*/
+  }
+
+  celebrationIndex() {
+    return Math.floor(Math.random() * this.celebrationSound.length)
   }
 }
