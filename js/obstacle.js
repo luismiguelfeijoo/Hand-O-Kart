@@ -88,7 +88,7 @@ class Obstacle {
         }
       }
     }
-    console.log(this.vx)
+    //console.log(this.vx)
     
   }
 

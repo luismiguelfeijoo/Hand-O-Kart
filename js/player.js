@@ -34,6 +34,8 @@ class Player {
     this.frameSize = 43.6;
     this.frames = 5;
     this.frameIndex = 0;
+
+    this.message = 0;
   }
 
   draw() {  
@@ -54,14 +56,14 @@ class Player {
     this.ctx.restore();
   }
 
-  move(handX) {
+  move(handX,delta) {
     if (handX) {
       this.targetX = handX
     } else {
       this.targetX = this.posX
     }
     //this.posX = targetX
-    this.posX += ((this.targetX - this.posX) * 0.05)
+    this.posX += ((this.targetX - this.posX) * ((3/1000)*delta) )
     
     /*
     if (this.posX <= 0) {
@@ -112,13 +114,24 @@ class Player {
     }
   }
 
-  celebration(celebration) {
+  celebration(celebrationAlpha) {
+    console.log(celebrationAlpha)
+    this.ctx.save()
+    this.ctx.fillStyle = 'white'
+    this.ctx.strokeStyle = "black"
+    this.ctx.lineWidth = "2"
+    this.ctx.font = '40px mario_kart'
+    this.ctx.globalAlpha = celebrationAlpha;
+    this.ctx.fillText(this.message, this.posX - 20 , this.posY - 50)
+    this.ctx.strokeText(this.message, this.posX - 20 , this.posY - 50)
+    this.ctx.restore();
+    /*
     if (celebration) {
       if (celebration % 5 === 0 && celebration) {
-        this.posY = this.posY - 10;
+        this.posY = this.posY - 20;
       } else {
         this.posY = this.gameHeight - this.height
       }
-    }
+    }*/
   }
 }
