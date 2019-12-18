@@ -7,6 +7,7 @@ trackButton.addEventListener("click", function () {
   intro.classList.add("hide")
   toggleVideo();
   Game.init();
+  toggleButton()
 });
 
 // Load the model.
@@ -17,10 +18,17 @@ window.onload = function() {
     updateNote.innerText = "Ready to play!"
     trackButton.classList.toggle("hide")
     trackButton.disabled = false
-    trackButton.classList.add("show")
-    startMessage.classList.remove("hide")
-    startMessage.classList.add("show")
+    LoadFiles.load.then( a => {
+        trackButton.classList.add("show")
+        startMessage.classList.remove("hide")
+        startMessage.classList.add("show")
+    })
+    
+    
+    
 
+    
+ //hacer una funcion para ir cargando las imagenes previamente 
     /*$(".overlaycenter").animate({
         opacity: 0,
         fontSize: "0vw"
@@ -54,7 +62,13 @@ function toggleVideo() {
   }
 }
 
-
+function toggleButton() {
+    if (trackButton.innerText == "start") {
+        trackButton.innerText = "pause"
+    } else {
+        trackButton.innerText = "start"
+    }
+}
 // video.width = 500
 // video.height = 400
 /*

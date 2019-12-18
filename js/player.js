@@ -36,6 +36,29 @@ class Player {
     this.frameIndex = 0;
 
     this.message = 0;
+
+    this.crashSound = [
+      new Audio(),
+      new Audio(),
+      new Audio()
+    ];
+    this.crashSound[0].src = "./sounds/mamma-mia.wav"
+    this.crashSound[1].src = "./sounds/ow.wav"
+    this.crashSound[2].src = "./sounds/loser.wav"
+
+    //this.crashIndex = 0
+
+    this.celebrationSound = [
+      new Audio(),
+      new Audio(),
+      new Audio()
+    ];
+
+    this.celebrationSound[0].src = "./sounds/whoo-hoo.wav"
+    this.celebrationSound[1].src = "./sounds/whee-hee.wav"
+    this.celebrationSound[2].src = "./sounds/okee.wav"
+
+    
   }
 
   draw() {  
@@ -112,10 +135,10 @@ class Player {
         this.frameIndex = 0
       }
     }
+    
   }
 
   celebration(celebrationAlpha) {
-    console.log(celebrationAlpha)
     this.ctx.save()
     this.ctx.fillStyle = 'white'
     this.ctx.strokeStyle = "black"
@@ -133,5 +156,9 @@ class Player {
         this.posY = this.gameHeight - this.height
       }
     }*/
+  }
+
+  celebrationIndex() {
+    return Math.floor(Math.random() * this.celebrationSound.length)
   }
 }

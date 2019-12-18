@@ -28,6 +28,7 @@ const Game = {
   alpha: 0,
 
   crash: 0,
+  crashIndex: 0,
   celebrationAlpha: 0,
 
   init: function() {
@@ -144,10 +145,11 @@ const Game = {
         if (obstacle.posY + obstacle.height/2 <= this.height) {
           return true
         } else {
-          if (!obstacle.crash) {
+          if (!obstacle.crash && !this.lastAnimation) {
             this.score ++
             this.player.message = "+1"
             this.celebrationAlpha = 1;
+            this.player.celebrationSound[this.player.celebrationIndex()].play();
           }
           return false
         }
@@ -169,6 +171,8 @@ const Game = {
           this.crash = 20;
           this.player.message = "-1"
           this.celebrationAlpha = 1;
+          this.player.crashSound[this.crashIndex].play();
+          if (this.crashIndex < 2) this.crashIndex ++
           return true
         } else {
           return false
@@ -187,6 +191,7 @@ const Game = {
   },
 
   finalAnimation: function() {
+    this.initialAnimation.music.pause()
     if (Game.alpha < 1) {
       Game.alpha += .01;
     } else {
