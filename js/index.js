@@ -7,6 +7,7 @@ trackButton.addEventListener("click", function () {
   intro.classList.add("hide")
   toggleVideo();
   Game.init();
+  toggleButton()
 });
 
 // Load the model.
@@ -54,7 +55,13 @@ function toggleVideo() {
   }
 }
 
-
+function toggleButton() {
+    if (trackButton.innerText == "start") {
+        trackButton.innerText = "pause"
+    } else {
+        trackButton.innerText = "start"
+    }
+}
 // video.width = 500
 // video.height = 400
 /*
