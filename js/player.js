@@ -34,6 +34,8 @@ class Player {
     this.frameSize = 43.6;
     this.frames = 5;
     this.frameIndex = 0;
+
+    this.message = 0;
   }
 
   draw() {  
@@ -120,8 +122,8 @@ class Player {
     this.ctx.lineWidth = "2"
     this.ctx.font = '40px mario_kart'
     this.ctx.globalAlpha = celebrationAlpha;
-    this.ctx.fillText("+1", this.posX - 20 , this.posY - 50)
-    this.ctx.strokeText("+1", this.posX - 20 , this.posY - 50)
+    this.ctx.fillText(this.message, this.posX - 20 , this.posY - 50)
+    this.ctx.strokeText(this.message, this.posX - 20 , this.posY - 50)
     this.ctx.restore();
     /*
     if (celebration) {

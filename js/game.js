@@ -68,7 +68,7 @@ const Game = {
       //console.log(Game.celebrationAlpha)
       Game.player.celebration(Game.celebrationAlpha)
       if (Game.celebrationAlpha > 0) {
-        Game.celebrationAlpha = parseFloat((Game.celebrationAlpha - 0.1).toFixed(1))
+        Game.celebrationAlpha = parseFloat((Game.celebrationAlpha - 0.05).toFixed(2))
       };
 
       if (timestamp / 100 > count) {
@@ -110,6 +110,7 @@ const Game = {
     this.obstacles = [];
     ScoreBoard.init(this.ctx, this.score, this.player.lives, this.width, this.height);
     BlackBackground.init(this.ctx,this.width,this.height)
+    this.initialAnimation = new InitialAnimation(this.ctx, this.width, this.height)
   },
 
   clear: function() {
@@ -122,11 +123,13 @@ const Game = {
     this.player.draw();
     ScoreBoard.draw(this.score, this.player.lives)
     BlackBackground.draw(this.alpha)
+    this.initialAnimation.draw(timestamp)
   },
 
   moveAll: function(delta) {
     this.player.move(this.midval,delta);
     this.obstacles.forEach(obstacle => obstacle.move(delta));
+    this.initialAnimation.move();
   },
 
   generateObstacles: function(timestamp, delta) {
@@ -143,6 +146,7 @@ const Game = {
         } else {
           if (!obstacle.crash) {
             this.score ++
+            this.player.message = "+1"
             this.celebrationAlpha = 1;
           }
           return false
@@ -163,6 +167,8 @@ const Game = {
           obs.crash = true
           //console.log(this.player.lives)
           this.crash = 20;
+          this.player.message = "-1"
+          this.celebrationAlpha = 1;
           return true
         } else {
           return false
@@ -187,6 +193,10 @@ const Game = {
       this.over = true
     }
   },
+
+  initialAnimation: function() {
+    
+  },  
 
   runDetection: function() {
     model.detect(this.video).then(predictions => {
