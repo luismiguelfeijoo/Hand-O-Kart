@@ -20,7 +20,7 @@ const LoadFiles = {
     "./sounds/lets-go.wav"
   ],
 
-  index:0,
+  index: 0,
 
   indexS: 0,
 
@@ -28,29 +28,29 @@ const LoadFiles = {
   finishS: false,
 
   downloadImages: function() {
-    let image = new Image()
-    image.src = this.images[this.index]
+    let image = new Image();
+    image.src = this.images[this.index];
     image.onload = () => {
       if (this.index < this.images.length - 1) {
-        this.index ++
-        this.downloadImages()
+        this.index++;
+        this.downloadImages();
       } else {
-        this.finishI = true
+        this.finishI = true;
       }
-    }
+    };
   },
 
   downloadSounds: function() {
-    let sound = new Audio()
-    sound.src = this.sounds[this.indexS]
+    let sound = new Audio();
+    sound.src = this.sounds[this.indexS];
     sound.onload = () => {
       if (this.indexS < this.sounds.length - 1) {
-        this.indexS ++
-        this.downloadSounds()
+        this.indexS++;
+        this.downloadSounds();
       } else {
-        this.finishS = true
+        this.finishS = true;
       }
-    }
+    };
   },
 
   loading: function() {
@@ -58,11 +58,10 @@ const LoadFiles = {
     this.downloadImages();
   },
 
-  load: new Promise ( function(resolve,reject) {
-    resolve( function() {
-      this.downloadImages()
-      this.downloadSounds()
-    })
-  }),
- 
-}
+  load: new Promise(function(resolve, reject) {
+    resolve(function() {
+      this.downloadImages();
+      this.downloadSounds();
+    });
+  })
+};

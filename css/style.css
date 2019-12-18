@@ -15,7 +15,7 @@ body {
 .start-display {
   position: absolute;
   margin: 2vw;
-  top: 0.0vw;
+  top: 0vw;
   color: #fff;
 }
 
@@ -36,21 +36,18 @@ body {
   margin-right: 10px;
   width: 215px;
   height: 162px;
-  border-bottom: 3px solid #0063FF;
+  border-bottom: 3px solid #0063ff;
   box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.2), 0 4px 10px 0 #00000030;
-
 }
 
-
-.updatenote{
+.updatenote {
   padding: 12px;
   background: #000;
   color: #fff;
   /* font-weight: bold; */
-
 }
 
-.trackbutton{
+.trackbutton {
   font-family: "mario_kart";
   padding: 5px;
   background: #cecece;
@@ -68,8 +65,8 @@ body {
 
 #myvideo {
   transform: rotateY(180deg);
-  -webkit-transform:rotateY(180deg); /* Safari and Chrome */
-  -moz-transform:rotateY(180deg); /* Firefox */
+  -webkit-transform: rotateY(180deg); /* Safari and Chrome */
+  -moz-transform: rotateY(180deg); /* Firefox */
 }
 
 .intro {
@@ -80,7 +77,7 @@ body {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  color: #fff
+  color: #fff;
 }
 
 .small {
@@ -96,6 +93,10 @@ body {
 }
 
 @keyframes show {
-  0%   {opacity: 0;}
-  100% {opacity: 1;}
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
 }

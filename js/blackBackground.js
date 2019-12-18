@@ -1,6 +1,6 @@
 const BlackBackground = {
   ctx: undefined,
-  
+
   gameWidth: undefined,
   gameHeight: undefined,
 
@@ -16,7 +16,7 @@ const BlackBackground = {
   draw: function(alpha) {
     this.ctx.save();
     this.ctx.globalAlpha = alpha;
-    this.ctx.fillRect(0,0,this.gameWidth,this.gameHeight);
+    this.ctx.fillRect(0, 0, this.gameWidth, this.gameHeight);
     this.ctx.restore();
   }
-}
+};
