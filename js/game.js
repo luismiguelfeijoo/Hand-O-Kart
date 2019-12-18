@@ -47,7 +47,7 @@ const Game = {
   start: function() {
     this.reset();
     let past = 0;
-    let last = 8000 //delay seconds
+    let last = 15000 //delay miliseconds
     let delta = 0;
     let count = 0; //to set a delay on runDetection()
     let proof = -20;
