@@ -28,6 +28,7 @@ const Game = {
   alpha: 0,
 
   crash: 0,
+  celebration: 0,
 
   init: function() {
     this.canvas = document.getElementById("canvas");
@@ -56,10 +57,15 @@ const Game = {
       past = timestamp;
 
       Game.clear();
+
       Game.player.crash(Game.crash)
+      if (Game.crash > 0) Game.crash --;
+      Game.player.celebration(Game.celebration)
+      if (Game.celebration > 0) Game.celebration --;
+
       Game.drawAll(timestamp);
       Game.moveAll(delta);
-      if (Game.crash > 0) Game.crash --;
+
 
       if (timestamp / 100 > count) {
         //this is rendering the hand at 15fps aprox
@@ -90,7 +96,6 @@ const Game = {
       if(Game.lastAnimation) {Game.finalAnimation()}
       if(Game.alpha >= 1) {Game.over = true}
       if(!Game.over) window.requestAnimationFrame(refresh);
-      //if (!Game.over) {window.requestAnimationFrame(refresh)}
     }
     window.requestAnimationFrame(refresh);
   },
@@ -132,7 +137,10 @@ const Game = {
         if (obstacle.posY + obstacle.height/2 <= this.height) {
           return true
         } else {
-          if (!obstacle.crash) this.score ++
+          if (!obstacle.crash) {
+            this.score ++
+            this.celebration = 20;
+          }
           return false
         }
       }
