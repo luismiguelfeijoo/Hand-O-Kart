@@ -1,7 +1,10 @@
 let trackButton = document.getElementById("trackbutton");
 let updateNote = document.getElementById("updatenote");
+let intro = document.getElementsByClassName("intro").item(0)
+let startMessage = document.getElementsByClassName("small").item(0)
 
 trackButton.addEventListener("click", function () {
+  intro.classList.add("hide")
   toggleVideo();
   Game.init();
 });
@@ -12,8 +15,11 @@ window.onload = function() {
     // detect objects in the image.
     model = lmodel
     updateNote.innerText = "Ready to play!"
-    trackButton.classList.toggle("enabled")
+    trackButton.classList.toggle("hide")
     trackButton.disabled = false
+    trackButton.classList.add("show")
+    startMessage.classList.remove("hide")
+    startMessage.classList.add("show")
 
     /*$(".overlaycenter").animate({
         opacity: 0,

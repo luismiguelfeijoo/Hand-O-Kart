@@ -115,7 +115,7 @@ class Player {
   celebration(celebration) {
     if (celebration) {
       if (celebration % 5 === 0 && celebration) {
-        this.posY = this.posY - 10;
+        this.posY = this.posY - 20;
       } else {
         this.posY = this.gameHeight - this.height
       }
