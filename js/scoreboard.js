@@ -15,7 +15,7 @@ const ScoreBoard = {
 
   draw: function(score, lives) {
     this.ctx.save()
-    this.ctx.fillStyle = 'yellow'
+    this.ctx.fillStyle = 'white'
     this.ctx.strokeStyle = "black"
     this.ctx.lineWidth = "2"
     this.ctx.font = '50px mario_kart'

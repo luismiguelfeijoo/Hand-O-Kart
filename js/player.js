@@ -112,13 +112,24 @@ class Player {
     }
   }
 
-  celebration(celebration) {
+  celebration(celebrationAlpha) {
+    console.log(celebrationAlpha)
+    this.ctx.save()
+    this.ctx.fillStyle = 'white'
+    this.ctx.strokeStyle = "black"
+    this.ctx.lineWidth = "2"
+    this.ctx.font = '40px mario_kart'
+    this.ctx.globalAlpha = celebrationAlpha;
+    this.ctx.fillText("+1", this.posX - 20 , this.posY - 50)
+    this.ctx.strokeText("+1", this.posX - 20 , this.posY - 50)
+    this.ctx.restore();
+    /*
     if (celebration) {
       if (celebration % 5 === 0 && celebration) {
         this.posY = this.posY - 20;
       } else {
         this.posY = this.gameHeight - this.height
       }
-    }
+    }*/
   }
 }
