@@ -54,14 +54,14 @@ class Player {
     this.ctx.restore();
   }
 
-  move(handX) {
+  move(handX,delta) {
     if (handX) {
       this.targetX = handX
     } else {
       this.targetX = this.posX
     }
     //this.posX = targetX
-    this.posX += ((this.targetX - this.posX) * 0.05)
+    this.posX += ((this.targetX - this.posX) * ((3/1000)*delta) )
     
     /*
     if (this.posX <= 0) {

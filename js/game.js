@@ -125,7 +125,7 @@ const Game = {
   },
 
   moveAll: function(delta) {
-    this.player.move(this.midval);
+    this.player.move(this.midval,delta);
     this.obstacles.forEach(obstacle => obstacle.move(delta));
   },
 
