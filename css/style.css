@@ -1,0 +1,102 @@
+@font-face {
+  font-family: "mario_kart";
+  src: url("../fonts/SuperMario256.ttf");
+}
+
+body {
+  font-family: "mario_kart";
+  margin: 0;
+  padding: 0;
+  text-align: center;
+  background: url(../img/initialBackground.png);
+  background-size: cover;
+}
+
+.start-display {
+  position: absolute;
+  margin: 2vw;
+  top: 0vw;
+  color: #fff;
+}
+
+/* Hide default HTML checkbox */
+.switch input {
+  display: none;
+}
+
+.mt10 {
+  margin-top: 10px;
+}
+
+.canvasbox {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  border-radius: 3px;
+  margin-right: 10px;
+  width: 215px;
+  height: 162px;
+  border-bottom: 3px solid #0063ff;
+  box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.2), 0 4px 10px 0 #00000030;
+}
+
+.updatenote {
+  padding: 12px;
+  background: #000;
+  color: #fff;
+  /* font-weight: bold; */
+}
+
+.trackbutton {
+  font-family: "mario_kart";
+  padding: 5px;
+  background: #cecece;
+  color: #fff;
+  border: none;
+  text-align: center;
+  background: #e93e4a;
+  font-size: 15px;
+}
+
+.enabled {
+  background: #e93e4a;
+  font-size: 15px;
+}
+
+#myvideo {
+  transform: rotateY(180deg);
+  -webkit-transform: rotateY(180deg); /* Safari and Chrome */
+  -moz-transform: rotateY(180deg); /* Firefox */
+}
+
+.intro {
+  font-size: 30px;
+  position: absolute;
+  width: 40%;
+  height: 20%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: #fff;
+}
+
+.small {
+  font-size: 15px;
+}
+
+.hide {
+  display: none;
+}
+
+.show {
+  animation: show 3s;
+}
+
+@keyframes show {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Mario Kart</title>
+    <link rel="stylesheet" href="css/style.css" />
+    <script src="https://cdn.jsdelivr.net/npm/handtrackjs/dist/handtrack.min.js"></script>
+  </head>
+  <body>
+    <div class="start-display">
+      <div id="updatenote" class="updatenote mt10">loading game ...</div>
+      <button
+        id="trackbutton"
+        class="mt10 trackbutton hide"
+        type="button"
+        disabled
+      >
+        start
+      </button>
+    </div>
+
+    <div class="intro show">
+      <p>Welcome to our HANDsome universe</p>
+      <p class="small hide">Push the start button on the left to start</p>
+    </div>
+
+    <video class="videobox canvasbox" autoplay="autoplay" id="myvideo"></video>
+
+    <canvas id="canvas" style="object-fit:cover;"></canvas>
+
+    <script src="js/imageLoad.js"></script>
+    <script src="js/background.js"></script>
+    <script src="js/initialAnimation.js"></script>
+    <script src="js/obstacle.js"></script>
+    <script src="js/blackBackground.js"></script>
+    <script src="js/scoreboard.js"></script>
+    <script src="js/player.js"></script>
+    <script src="js/game.js"></script>
+    <script src="js/index.js"></script>
+  </body>
+</html>
