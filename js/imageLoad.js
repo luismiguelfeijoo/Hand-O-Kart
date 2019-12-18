@@ -13,7 +13,11 @@ const LoadFiles = {
     "./sounds/ow.wav",
     "./sounds/whoo-hoo.wav",
     "./sounds/okee.wav",
-    "./sounds/whee-hee.wav"
+    "./sounds/whee-hee.wav",
+    "./sounds/countdown.wav",
+    "./sounds/music.mp3",
+    "./sounds/start.wav",
+    "./sounds/lets-go.wav"
   ],
 
   index:0,

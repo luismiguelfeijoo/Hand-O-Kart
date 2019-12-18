@@ -139,7 +139,6 @@ class Player {
   }
 
   celebration(celebrationAlpha) {
-    console.log(celebrationAlpha)
     this.ctx.save()
     this.ctx.fillStyle = 'white'
     this.ctx.strokeStyle = "black"

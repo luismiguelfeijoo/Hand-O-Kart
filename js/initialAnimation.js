@@ -14,6 +14,22 @@ class InitialAnimation {
       "GO!",
     ]
     this.index = -1;
+
+    this.intro = new Audio();
+    this.intro.src = "./sounds/start.wav"
+
+    this.countdown = new Audio()
+    this.countdown.src = "./sounds/countdown.wav"
+
+    this.letsGo = new Audio()
+    this.letsGo.src = "./sounds/lets-go.wav"
+
+    this.played = false;
+    this.played2 = false;
+
+    this.music = new Audio()
+    this.music.src = "./sounds/music.mp3"
+    this.music.loop = true;
   }
 
   draw(timestamp) {
@@ -31,15 +47,23 @@ class InitialAnimation {
   }
 
   move() {
-    console.log(this.timestamp)
     if (this.alpha <= 1 && this.alpha != 0 ) {
       this.alpha ++
     }
     if (this.timestamp > 2000 && this.timestamp < 15000 ) {
+      if (!this.played) {
+        this.intro.play()
+        this.played = true;
+      }
       this.index = 0
     } else if (this.timestamp < 17000){
+      if (!this.played2) {
+        this.letsGo.play()
+        this.played2= true
+      }
       this.index = 1
     } else if (this.timestamp < 18000) {
+      this.countdown.play()
       this.index = 2
     } else if (this.timestamp < 19000) {
       this.index = 3
@@ -48,7 +72,16 @@ class InitialAnimation {
     } else if (this.timestamp < 21000) {
       this.index = 5
     } else if (this.timestamp < 23000) {
+      this.music.play()
       this.alpha = 0;
     }
+  }
+
+  introMusic() {
+    if (!this.played) {
+      this.intro.play()
+      this.played = true;
+    } 
+    
   }
 }
