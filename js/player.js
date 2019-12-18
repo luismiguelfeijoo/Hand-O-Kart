@@ -43,12 +43,14 @@ class Player {
       
       this.animate()
       this.ctx.globalAlpha = .8;
-      this.ctx.drawImage(this.image, this.sx, this.frameIndex * this.frameSize, this.sWidth, this.sHeight, this.posX, this.posY, this.width, this.height);
+      this.ctx.translate(this.posX - this.width/2,this.posY)
+      this.ctx.drawImage(this.image, this.sx, this.frameIndex * this.frameSize, this.sWidth, this.sHeight, 0, 0, this.width, this.height);
     } else {
   
       this.animate()
       this.ctx.globalAlpha = .8;
-      this.ctx.drawImage(this.imageMirror, this.sx, this.frameIndex * this.frameSize, this.sWidth, this.sHeight, this.posX, this.posY, this.width, this.height);
+      this.ctx.translate(this.posX -this.width/2,this.posY)
+      this.ctx.drawImage(this.imageMirror, this.sx, this.frameIndex * this.frameSize, this.sWidth, this.sHeight, 0, 0, this.width, this.height);
       
     }
     this.ctx.restore();
@@ -80,24 +82,24 @@ class Player {
   }
 
   animate() {
-    console.log("animation")
+    //console.log("animation")
     let delta = this.targetX - this.posX
     if (delta > 0) {
       this.mirror = true
       if (delta > 10 && this.frameIndex < this.frames) {
         this.frameIndex ++;
-        console.log("Delta >", this.frameIndex)
+        //console.log("Delta >", this.frameIndex)
       } else if (delta <= 5 && this.frameIndex > 0) {
         this.frameIndex --;
       }
     } else if (delta < 0 ) {
       this.mirror = false
       if (delta < -10 && this.frameIndex < this.frames) {
-        console.log("Delta <", this.frameIndex)
+        //console.log("Delta <", this.frameIndex)
         this.frameIndex ++;
       } else if (delta >= -5 && this.frameIndex > 0){
         this.frameIndex --;
-        console.log("Delta <", this.frameIndex)
+        //console.log("Delta <", this.frameIndex)
       }
     }
     

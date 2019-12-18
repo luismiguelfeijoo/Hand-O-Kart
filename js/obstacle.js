@@ -8,21 +8,26 @@ class Obstacle {
     this.gameWidth = gameWidth;
     this.gameHeight = gameHeight;
 
-    this.width = 0;
-    this.height = 0;
+    this.width = 5;
+    this.height = 5;
 
     this.sx = 0;
     this.sy = 0;
     this.sWidth = 30;
     this.sHeight = 30;
 
-    this.posX = (Math.random() * (this.gameWidth - this.width))
-    this.posY = this.gameHeight - 160;
+    this.section = this.gameWidth/3
 
+    this.posX = (Math.random() * (this.gameWidth - this.width - 1080)) + 550, //min 500, max gamewidth - 650 (1440-650 = 790)
+    this.posY = this.gameHeight - 400,
+
+    this.vx = this.velocityX();
     this.vy = 0;
     this.vz = 0;
-    this.accY = 0.1;
-    this.accZ = 0.2;
+
+    this.accX = this.accelerationX();
+    this.accY = 0.15;
+    this.accZ = 0.05 // 0.2;
 
     this.image = new Image();
     this.image.src = "./img/items.png"
@@ -30,21 +35,24 @@ class Obstacle {
     this.frames = 7;
     this.frameIndex = 0;
     this.frameSize = 30.5;
+
   }
 
   draw(timestamp) {
     this.currentTime = timestamp;
     this.animate()
     //console.log(this.creationTime, this.currentTime)
-    if(this.currentTime <= this.creationTime + 3000 && this.currentTime >= this.creationTime + 1000) {
+    if(this.currentTime <= this.creationTime + 1000) {
+      //do nothing
+    } else if(this.currentTime <= this.creationTime + 3000) {
       this.ctx.save()
       this.ctx.strokeStyle = "#FF0"
       this.ctx.lineWidth = 5
       this.ctx.beginPath();
-      this.ctx.moveTo(this.posX - 25, this.gameHeight - 300);
-      this.ctx.lineTo(this.posX + 25, this.gameHeight - 300);
-      this.ctx.lineTo(this.posX, this.gameHeight - 280);
-      this.ctx.lineTo(this.posX - 25, this.gameHeight - 300);
+      this.ctx.moveTo(this.posX - 25, this.gameHeight - 500);
+      this.ctx.lineTo(this.posX + 25, this.gameHeight - 500);
+      this.ctx.lineTo(this.posX, this.gameHeight - 470);
+      this.ctx.lineTo(this.posX - 25, this.gameHeight - 500);
       this.ctx.closePath();
       this.ctx.stroke();
       this.ctx.restore();
@@ -57,6 +65,7 @@ class Obstacle {
       this.ctx.drawImage(this.image, this.frameIndex * this.frameSize, this.sy, this.sWidth, this.sHeight, this.width/2, this.height/2, this.width, this.height);
       this.ctx.closePath();
       this.ctx.restore();
+      //console.log(this.vx, this.accX, this.posX)
     }
   }
 
@@ -64,6 +73,7 @@ class Obstacle {
     if(this.currentTime <= this.creationTime + 3000 ) {
     } else {
       if (this.posY <= this.gameHeight ) {
+        this.posX += this.vx;
         this.posY += this.vy;
         this.width += this.vz;
         this.height += this.vz;
@@ -71,6 +81,7 @@ class Obstacle {
           //console.log(this.vy)
           this.vy += this.accY;
           this.vz += this.accZ;
+          this.vx += this.accX;
         }
       }
     }
@@ -82,5 +93,28 @@ class Obstacle {
       this.frameIndex ++
     } else {this.frameIndex = 0}
     
+  }
+
+  velocityX() {
+    if (this.posX >= this.section && this.posX < this.section + this.section/3) {
+      //console.log("section 1")
+      return -1.5;
+    } else  if (this.posX >= this.section + 2*this.section/3 - this.section/9) {
+      //console.log("section 2")
+      return 1
+    } else {
+      //console.log("section 3")
+      return 0;
+    }
+  }
+
+  accelerationX() {
+    if (this.vx > 0) {
+      return 0.16;
+    } else if (this.vx == 0) {
+      return 0;
+    } else {
+      return -0.18;
+    }
   }
 }
