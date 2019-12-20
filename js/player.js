@@ -93,21 +93,7 @@ class Player {
     } else {
       this.targetX = this.posX;
     }
-    //this.posX = targetX
     this.posX += (this.targetX - this.posX) * ((3 / 1000) * delta);
-
-    /*
-    if (this.posX <= 0) {
-      this.posX = 0
-    } else if ((this.posX + this.width) >= this.gameWidth) {
-      (this.posX + this.width) >= this.gameWidth
-    }*/
-    /*
-    if (this.targetX > this.posX) {
-      this.posX += ((this.targetX - this.posX) * 0.1)
-    } else if (this.targetX < this.posX) {
-      this.posX += ((this.targetX - this.posX) * 0.1)
-    }*/
   }
 
   animate() {

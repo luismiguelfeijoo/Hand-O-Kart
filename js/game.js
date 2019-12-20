@@ -66,17 +66,12 @@ class Game {
     let refresh = function(timestamp) {
       delta = timestamp - past;
       past = timestamp;
-
       this.clear();
-
       this.player.crash(this.crash);
       if (this.crash > 0) this.crash--;
 
       this.drawAll(timestamp);
-
       this.moveAll(delta);
-
-      //console.log(this.celebrationAlpha)
       this.player.celebration(this.celebrationAlpha);
       if (this.celebrationAlpha > 0) {
         this.celebrationAlpha = parseFloat(
@@ -89,14 +84,7 @@ class Game {
         this.runDetection();
         count++;
       }
-      /*
-      let secondsCounter = Math.floor(timestamp / 2000);
-      if (secondsCounter === proof + 1) {
-        this.generateObstacles();
-      }
-      proof = secondsCounter;
-      */
-      //console.log(timestamp, last)
+
       if (timestamp - last >= dif * 1000) {
         if (dif > 1) dif -= 0.5;
         last = timestamp;
@@ -242,9 +230,6 @@ class Game {
 
   runDetection() {
     model.detect(this.video).then(predictions => {
-      // console.log("Predictions: ", predictions);
-      // get the middle x value of the bounding box and map to paddle location
-      //this is the renderer of the library  -->//model.renderPredictions(predictions, canvas, context, video);
       //to render on top of video
       this.renderPredictions(
         predictions,
@@ -261,6 +246,7 @@ class Game {
   }
 
   //modified model.renderPredictions method from the handtrack.js library
+  //renderPredictions(predictions, canvas, context, video)
   renderPredictions(e, t, a, n) {
     a.clearRect(0, 0, t.width, t.height),
       (t.width = n.width),
