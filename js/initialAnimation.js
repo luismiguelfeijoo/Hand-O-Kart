@@ -29,10 +29,10 @@ class InitialAnimation {
 
     this.music = new Audio();
     this.music.src = "./sounds/music.mp3";
-    this.music.loop = true;
   }
 
   draw(timestamp) {
+    console.log(timestamp);
     this.timestamp = timestamp;
     this.ctx.save();
     this.ctx.fillStyle = "white";
@@ -74,6 +74,7 @@ class InitialAnimation {
     } else if (this.timestamp < 23000) {
       this.music.play();
       this.alpha = 0;
+      this.index = -1;
     }
   }
 

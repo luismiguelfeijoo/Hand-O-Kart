@@ -1,41 +1,47 @@
-const Game = {
-  canvas: undefined,
-  ctx: undefined,
+class Game {
+  constructor() {
+    this.canvas = undefined;
+    this.ctx = undefined;
 
-  video: document.getElementById("myvideo"),
-  videoCanvas: document.getElementById("videoCanvas"),
-  videoCanvasCtx: videoCanvas.getContext("2d"),
+    this.video = document.getElementById("myvideo");
+    this.videoCanvas = document.getElementById("videoCanvas");
+    this.videoCanvasCtx = videoCanvas.getContext("2d");
 
-  width: undefined,
-  height: undefined,
-  fps: 60,
-  framesCounter: 0,
-  score: 0,
-  lives: undefined,
-  midval: 0,
+    this.width = undefined;
+    this.height = undefined;
+    this.fps = 60;
+    this.framesCounter = 0;
+    this.score = 0;
+    this.lives = undefined;
+    this.midval = 0;
 
-  model: null,
-  isVideo: null,
-  imgindex: null,
+    this.model = null;
+    this.isVideo = null;
+    this.imgindex = null;
 
-  modelParams: {
-    flipHorizontal: true, // flip e.g for video
-    maxNumBoxes: 1, // maximum number of boxes to detect
-    iouThreshold: 0.5, // ioU threshold for non-max suppression
-    scoreThreshold: 0.7 // confidence threshold for predictions.
-  },
+    this.modelParams = {
+      flipHorizontal: true, // flip e.g for video
+      maxNumBoxes: 1, // maximum number of boxes to detect
+      iouThreshold: 0.5, // ioU threshold for non-max suppression
+      scoreThreshold: 0.7 // confidence threshold for predictions.
+    };
+    this.over = false;
+    this.obstacleCollision = 0;
 
-  over: false,
-  obstacleCollision: 0,
+    this.lastAnimation = false;
+    this.alpha = 0;
 
-  lastAnimation: false,
-  alpha: 0,
+    this.crash = 0;
+    this.crashIndex = 0;
+    this.celebrationAlpha = 0;
+    this.restart = false;
 
-  crash: 0,
-  crashIndex: 0,
-  celebrationAlpha: 0,
+    this.music = new Audio();
+    this.music.src = "./sounds/music.mp3";
+    this.music.loop = true;
+  }
 
-  init: function() {
+  init() {
     this.canvas = document.getElementById("canvas");
     this.ctx = this.canvas.getContext("2d");
     //this.video = document.getElementById("myvideo")
@@ -47,9 +53,9 @@ const Game = {
     this.video.height = this.height;
     this.alpha = 0;
     this.start();
-  },
+  }
 
-  start: function() {
+  start() {
     this.reset();
     let past = 0;
     let last = 15000; //delay miliseconds
@@ -57,36 +63,36 @@ const Game = {
     let count = 0; //to set a delay on runDetection()
     let proof = -20;
     let dif = 5;
-    function refresh(timestamp) {
+    let refresh = function(timestamp) {
       delta = timestamp - past;
       past = timestamp;
 
-      Game.clear();
+      this.clear();
 
-      Game.player.crash(Game.crash);
-      if (Game.crash > 0) Game.crash--;
+      this.player.crash(this.crash);
+      if (this.crash > 0) this.crash--;
 
-      Game.drawAll(timestamp);
+      this.drawAll(timestamp);
 
-      Game.moveAll(delta);
+      this.moveAll(delta);
 
-      //console.log(Game.celebrationAlpha)
-      Game.player.celebration(Game.celebrationAlpha);
-      if (Game.celebrationAlpha > 0) {
-        Game.celebrationAlpha = parseFloat(
-          (Game.celebrationAlpha - 0.05).toFixed(2)
+      //console.log(this.celebrationAlpha)
+      this.player.celebration(this.celebrationAlpha);
+      if (this.celebrationAlpha > 0) {
+        this.celebrationAlpha = parseFloat(
+          (this.celebrationAlpha - 0.05).toFixed(2)
         );
       }
 
       if (timestamp / 100 > count) {
         //this is rendering the hand at 15fps aprox
-        Game.runDetection();
+        this.runDetection();
         count++;
       }
       /*
       let secondsCounter = Math.floor(timestamp / 2000);
       if (secondsCounter === proof + 1) {
-        Game.generateObstacles();
+        this.generateObstacles();
       }
       proof = secondsCounter;
       */
@@ -94,28 +100,30 @@ const Game = {
       if (timestamp - last >= dif * 1000) {
         if (dif > 1) dif -= 0.5;
         last = timestamp;
-        Game.generateObstacles(timestamp, delta);
+        this.generateObstacles(timestamp, delta);
       }
 
-      Game.clearObstacles();
+      this.clearObstacles();
 
-      if (Game.isCollision()) {
+      if (this.isCollision()) {
         //console.log("hola")
-        Game.gameOver();
+        this.gameOver();
       }
 
-      if (Game.lastAnimation) {
-        Game.finalAnimation();
+      if (this.lastAnimation) {
+        this.finalAnimation();
       }
-      if (Game.alpha >= 1) {
-        Game.over = true;
+      if (this.alpha >= 1) {
+        this.over = true;
       }
-      if (!Game.over) window.requestAnimationFrame(refresh);
-    }
-    window.requestAnimationFrame(refresh);
-  },
+      if (!this.over) {
+        this.id = window.requestAnimationFrame(refresh);
+      }
+    }.bind(this);
+    this.id = window.requestAnimationFrame(refresh);
+  }
 
-  reset: function() {
+  reset() {
     this.background = new Background(this.ctx, this.width, this.height);
     this.player = new Player(this.ctx, this.width, this.height);
     this.obstacles = [];
@@ -127,40 +135,44 @@ const Game = {
       this.height
     );
     BlackBackground.init(this.ctx, this.width, this.height);
-    this.initialAnimation = new InitialAnimation(
-      this.ctx,
-      this.width,
-      this.height
-    );
-  },
+    if (!this.restart) {
+      this.initialAnimation = new InitialAnimation(
+        this.ctx,
+        this.width,
+        this.height
+      );
+    } else {
+      this.music.play();
+    }
+  }
 
-  clear: function() {
+  clear() {
     this.ctx.clearRect(0, 0, this.width, this.height);
-  },
+  }
 
-  drawAll: function(timestamp) {
+  drawAll(timestamp) {
     this.background.draw();
     this.obstacles.forEach(obstacle => obstacle.draw(timestamp));
     this.player.draw();
     ScoreBoard.draw(this.score, this.player.lives);
     BlackBackground.draw(this.alpha);
-    this.initialAnimation.draw(timestamp);
-  },
+    if (!this.restart) this.initialAnimation.draw(timestamp);
+  }
 
-  moveAll: function(delta) {
+  moveAll(delta) {
     this.player.move(this.midval, delta);
     this.obstacles.forEach(obstacle => obstacle.move(delta));
-    this.initialAnimation.move();
-  },
+    if (!this.restart) this.initialAnimation.move();
+  }
 
-  generateObstacles: function(timestamp, delta) {
+  generateObstacles(timestamp, delta) {
     //console.log("generating obs");
     this.obstacles.push(
       new Obstacle(this.ctx, this.width, this.height, timestamp)
     );
-  },
+  }
 
-  clearObstacles: function() {
+  clearObstacles() {
     //console.log(this.obstacles)
     this.obstacles = this.obstacles.filter(obstacle => {
       if (obstacle.posY + obstacle.height / 2 <= this.height) {
@@ -175,19 +187,19 @@ const Game = {
         return false;
       }
     });
-  },
+  }
 
-  isCollision: function() {
+  isCollision() {
     // return this.obstacles.some(obs => (this.player.posX + this.player.width > obs.posX && obs.posX + obs.width > this.player.posX ))
     return this.obstacles.some(obs => {
-      if (Game.obstacleCollision != obs.creationTime) {
+      if (this.obstacleCollision != obs.creationTime) {
         if (
           this.player.posX + this.player.width > obs.posX - obs.width / 2 &&
           obs.posX + obs.width / 2 > this.player.posX &&
           obs.width >= 90 &&
           obs.width <= 100
         ) {
-          Game.obstacleCollision = obs.creationTime;
+          this.obstacleCollision = obs.creationTime;
           //console.log("collision")
           this.player.lives--;
           obs.crash = true;
@@ -203,33 +215,38 @@ const Game = {
         }
       }
     });
-  },
+  }
 
-  gameOver: function() {
+  gameOver() {
     if (this.player.lives === 0) {
       this.lastAnimation = true;
       toggleVideo();
       updateNote.innerText = "Game Over";
+      trackButton.innerText = "restart";
     }
     //window.cancelAnimationFrame(Game.request);
-  },
+  }
 
-  finalAnimation: function() {
-    this.initialAnimation.music.pause();
-    if (Game.alpha < 1) {
-      Game.alpha += 0.01;
+  finalAnimation() {
+    if (!this.restart) {
+      this.initialAnimation.music.pause();
+    } else {
+      this.music.pause();
+    }
+    if (this.alpha < 1) {
+      this.alpha += 0.01;
     } else {
       this.over = true;
     }
-  },
+  }
 
-  runDetection: function() {
+  runDetection() {
     model.detect(this.video).then(predictions => {
       // console.log("Predictions: ", predictions);
       // get the middle x value of the bounding box and map to paddle location
       //this is the renderer of the library  -->//model.renderPredictions(predictions, canvas, context, video);
       //to render on top of video
-      Game.renderPredictions(
+      this.renderPredictions(
         predictions,
         this.videoCanvas,
         this.videoCanvasCtx,
@@ -241,10 +258,10 @@ const Game = {
         //console.log(this.midval)
       }
     });
-  },
+  }
 
   //modified model.renderPredictions method from the handtrack.js library
-  renderPredictions: function(e, t, a, n) {
+  renderPredictions(e, t, a, n) {
     a.clearRect(0, 0, t.width, t.height),
       (t.width = n.width),
       (t.height = n.height),
@@ -265,4 +282,4 @@ const Game = {
         a.rect(...e[r].bbox),
         a.stroke();
   }
-};
+}
