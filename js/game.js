@@ -223,25 +223,22 @@ const Game = {
     }
   },
 
-  initialAnimation: function() {},
-
   runDetection: function() {
     model.detect(this.video).then(predictions => {
       // console.log("Predictions: ", predictions);
       // get the middle x value of the bounding box and map to paddle location
       //this is the renderer of the library  -->//model.renderPredictions(predictions, canvas, context, video);
+      //to render on top of video
       Game.renderPredictions(
         predictions,
         this.videoCanvas,
         this.videoCanvasCtx,
         this.video
       );
+      // set the value x of the hand
       if (predictions[0]) {
         this.midval = predictions[0].bbox[0] + predictions[0].bbox[2] / 2;
         //console.log(this.midval)
-        //gamex = document.body.clientWidth * (midval / video.width)
-        //updatePaddleControl(gamex)
-        //console.log('Predictions: ', gamex);
       }
     });
   },
