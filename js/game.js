@@ -1,7 +1,11 @@
 const Game = {
   canvas: undefined,
   ctx: undefined,
+
   video: document.getElementById("myvideo"),
+  videoCanvas: document.getElementById("videoCanvas"),
+  videoCanvasCtx: videoCanvas.getContext("2d"),
+
   width: undefined,
   height: undefined,
   fps: 60,
@@ -18,7 +22,7 @@ const Game = {
     flipHorizontal: true, // flip e.g for video
     maxNumBoxes: 1, // maximum number of boxes to detect
     iouThreshold: 0.5, // ioU threshold for non-max suppression
-    scoreThreshold: 0.8 // confidence threshold for predictions.
+    scoreThreshold: 0.7 // confidence threshold for predictions.
   },
 
   over: false,
@@ -180,7 +184,8 @@ const Game = {
         if (
           this.player.posX + this.player.width > obs.posX - obs.width / 2 &&
           obs.posX + obs.width / 2 > this.player.posX &&
-          obs.width >= 90 && obs.width <= 100
+          obs.width >= 90 &&
+          obs.width <= 100
         ) {
           Game.obstacleCollision = obs.creationTime;
           //console.log("collision")
@@ -225,6 +230,12 @@ const Game = {
       // console.log("Predictions: ", predictions);
       // get the middle x value of the bounding box and map to paddle location
       //this is the renderer of the library  -->//model.renderPredictions(predictions, canvas, context, video);
+      Game.renderPredictions(
+        predictions,
+        this.videoCanvas,
+        this.videoCanvasCtx,
+        this.video
+      );
       if (predictions[0]) {
         this.midval = predictions[0].bbox[0] + predictions[0].bbox[2] / 2;
         //console.log(this.midval)
@@ -233,5 +244,28 @@ const Game = {
         //console.log('Predictions: ', gamex);
       }
     });
+  },
+
+  //modified model.renderPredictions method from the handtrack.js library
+  renderPredictions: function(e, t, a, n) {
+    a.clearRect(0, 0, t.width, t.height),
+      (t.width = n.width),
+      (t.height = n.height),
+      a.save(),
+      this.modelParams.flipHorizontal &&
+        (a.scale(-1, 1), a.translate(-n.width, 0)),
+      a.drawImage(n, 0, 0, n.width, n.height),
+      a.restore(),
+      (a.font = "15px Arial"); // console.log('number of detections: ', predictions.length);
+    for (
+      let r = 0;
+      r < e.length;
+      r++ // draw a dot at the center of bounding box
+    )
+      a.beginPath(),
+        (a.lineWidth = 3),
+        (a.strokeStyle = "#ff4a4a"),
+        a.rect(...e[r].bbox),
+        a.stroke();
   }
 };
