@@ -3,16 +3,10 @@ let updateNote = document.getElementById("updatenote");
 let intro = document.getElementsByClassName("intro").item(0);
 let startMessage = document.getElementsByClassName("small").item(0);
 
-trackButton.addEventListener("click", function() {
-  intro.classList.add("hide");
-  toggleVideo();
-  Game.init();
-  toggleButton();
-});
-
 // Load the model.
 window.onload = function() {
-  handTrack.load(Game.modelParams).then(lmodel => {
+  game = new Game();
+  handTrack.load(game.modelParams).then(lmodel => {
     // detect objects in the image.
     model = lmodel;
     updateNote.innerText = "Ready to play!";
@@ -27,11 +21,11 @@ window.onload = function() {
 };
 
 function startVideo() {
-  handTrack.startVideo(Game.video).then(function(status) {
+  handTrack.startVideo(game.video).then(function(status) {
     //console.log("video started", status);
     if (status) {
       updateNote.innerText = "Now playing";
-      Game.isVideo = true;
+      game.isVideo = true;
     } else {
       updateNote.innerText = "Please enable video";
     }
@@ -39,13 +33,13 @@ function startVideo() {
 }
 
 function toggleVideo() {
-  if (!Game.isVideo) {
+  if (!game.isVideo) {
     updateNote.innerText = "Starting video";
     startVideo();
   } else {
     updateNote.innerText = "Stopping video";
-    handTrack.stopVideo(Game.video);
-    Game.isVideo = false;
+    handTrack.stopVideo(game.video);
+    game.isVideo = false;
     updateNote.innerText = "Video stopped";
   }
 }
@@ -57,3 +51,14 @@ function toggleButton() {
     trackButton.innerText = "start";
   }
 }
+
+trackButton.addEventListener("click", function() {
+  intro.classList.add("hide");
+  if (trackButton.innerText == "restart") {
+    game = new Game();
+    game.restart = true;
+  }
+  toggleVideo();
+  game.init();
+  toggleButton();
+});
