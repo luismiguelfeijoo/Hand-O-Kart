@@ -8,7 +8,6 @@ const BlackBackground = {
 
   init: function(ctx, gameWidth, gameHeight) {
     this.ctx = ctx;
-    //this.alpha = alpha
     this.gameWidth = gameWidth;
     this.gameHeight = gameHeight;
   },

@@ -97,24 +97,20 @@ class Player {
   }
 
   animate() {
-    //console.log("animation")
     let delta = this.targetX - this.posX;
     if (delta > 0) {
       this.mirror = true;
       if (delta > 10 && this.frameIndex < this.frames) {
         this.frameIndex++;
-        //console.log("Delta >", this.frameIndex)
       } else if (delta <= 5 && this.frameIndex > 0) {
         this.frameIndex--;
       }
     } else if (delta < 0) {
       this.mirror = false;
       if (delta < -10 && this.frameIndex < this.frames) {
-        //console.log("Delta <", this.frameIndex)
         this.frameIndex++;
       } else if (delta >= -5 && this.frameIndex > 0) {
         this.frameIndex--;
-        //console.log("Delta <", this.frameIndex)
       }
     }
   }
@@ -139,14 +135,6 @@ class Player {
     this.ctx.fillText(this.message, this.posX - 20, this.posY - 50);
     this.ctx.strokeText(this.message, this.posX - 20, this.posY - 50);
     this.ctx.restore();
-    /*
-    if (celebration) {
-      if (celebration % 5 === 0 && celebration) {
-        this.posY = this.posY - 20;
-      } else {
-        this.posY = this.gameHeight - this.height
-      }
-    }*/
   }
 
   celebrationIndex() {

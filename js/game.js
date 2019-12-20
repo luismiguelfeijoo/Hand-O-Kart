@@ -44,7 +44,6 @@ class Game {
   init() {
     this.canvas = document.getElementById("canvas");
     this.ctx = this.canvas.getContext("2d");
-    //this.video = document.getElementById("myvideo")
     this.width = window.innerWidth;
     this.height = window.innerHeight;
     this.canvas.width = this.width;
@@ -72,6 +71,7 @@ class Game {
 
       this.drawAll(timestamp);
       this.moveAll(delta);
+
       this.player.celebration(this.celebrationAlpha);
       if (this.celebrationAlpha > 0) {
         this.celebrationAlpha = parseFloat(
@@ -85,6 +85,7 @@ class Game {
         count++;
       }
 
+      //generates obstacles every 5s then with -.5 seconds than the previous until it reaches 1 second
       if (timestamp - last >= dif * 1000) {
         if (dif > 1) dif -= 0.5;
         last = timestamp;
@@ -94,7 +95,6 @@ class Game {
       this.clearObstacles();
 
       if (this.isCollision()) {
-        //console.log("hola")
         this.gameOver();
       }
 
@@ -182,20 +182,20 @@ class Game {
     return this.obstacles.some(obs => {
       if (this.obstacleCollision != obs.creationTime) {
         if (
-          this.player.posX + this.player.width > obs.posX - obs.width / 2 &&
-          obs.posX + obs.width / 2 > this.player.posX &&
+          this.player.posX + this.player.width / 2 > obs.posX - obs.width / 2 &&
+          obs.posX + obs.width / 2 > this.player.posX - this.player.width / 2 &&
           obs.width >= 90 &&
           obs.width <= 100
         ) {
-          this.obstacleCollision = obs.creationTime;
-          //console.log("collision")
-          this.player.lives--;
-          obs.crash = true;
-          //console.log(this.player.lives)
-          this.crash = 20;
-          this.player.message = "-1";
-          this.celebrationAlpha = 1;
-          this.player.crashSound[this.crashIndex].play();
+          if (!this.lastAnimation) {
+            this.obstacleCollision = obs.creationTime;
+            this.player.lives--;
+            obs.crash = true;
+            this.crash = 20;
+            this.player.message = "-1";
+            this.celebrationAlpha = 1;
+            this.player.crashSound[this.crashIndex].play();
+          }
           if (this.crashIndex < 2) this.crashIndex++;
           return true;
         } else {
@@ -212,7 +212,6 @@ class Game {
       updateNote.innerText = "Game Over";
       trackButton.innerText = "restart";
     }
-    //window.cancelAnimationFrame(Game.request);
   }
 
   finalAnimation() {
@@ -240,7 +239,6 @@ class Game {
       // set the value x of the hand
       if (predictions[0]) {
         this.midval = predictions[0].bbox[0] + predictions[0].bbox[2] / 2;
-        //console.log(this.midval)
       }
     });
   }

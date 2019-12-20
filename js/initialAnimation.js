@@ -32,7 +32,6 @@ class InitialAnimation {
   }
 
   draw(timestamp) {
-    console.log(timestamp);
     this.timestamp = timestamp;
     this.ctx.save();
     this.ctx.fillStyle = "white";
