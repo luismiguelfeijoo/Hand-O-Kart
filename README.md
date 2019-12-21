@@ -1,6 +1,6 @@
 # Hand-O-Kart
 
-[![](https://i.imgur.com/oobrhc1.png)](https://luismiguelfeijoo.github.io/Hand-O-Kart/)
+[![](https://i.imgur.com/oobrhc1.png)](https://luismiguelfeijoo.github.io/Hand-O-Kart/index.html)
 
 Try to survive to an obstacle blast by moving your kart from side to side with the arrow keys... or was it with the mouse(?). 
 I guess we will have to figure it out.
