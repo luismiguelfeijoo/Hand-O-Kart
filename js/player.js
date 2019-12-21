@@ -93,42 +93,24 @@ class Player {
     } else {
       this.targetX = this.posX;
     }
-    //this.posX = targetX
     this.posX += (this.targetX - this.posX) * ((3 / 1000) * delta);
-
-    /*
-    if (this.posX <= 0) {
-      this.posX = 0
-    } else if ((this.posX + this.width) >= this.gameWidth) {
-      (this.posX + this.width) >= this.gameWidth
-    }*/
-    /*
-    if (this.targetX > this.posX) {
-      this.posX += ((this.targetX - this.posX) * 0.1)
-    } else if (this.targetX < this.posX) {
-      this.posX += ((this.targetX - this.posX) * 0.1)
-    }*/
   }
 
   animate() {
-    //console.log("animation")
     let delta = this.targetX - this.posX;
     if (delta > 0) {
       this.mirror = true;
       if (delta > 10 && this.frameIndex < this.frames) {
         this.frameIndex++;
-        //console.log("Delta >", this.frameIndex)
       } else if (delta <= 5 && this.frameIndex > 0) {
         this.frameIndex--;
       }
     } else if (delta < 0) {
       this.mirror = false;
       if (delta < -10 && this.frameIndex < this.frames) {
-        //console.log("Delta <", this.frameIndex)
         this.frameIndex++;
       } else if (delta >= -5 && this.frameIndex > 0) {
         this.frameIndex--;
-        //console.log("Delta <", this.frameIndex)
       }
     }
   }
@@ -153,14 +135,6 @@ class Player {
     this.ctx.fillText(this.message, this.posX - 20, this.posY - 50);
     this.ctx.strokeText(this.message, this.posX - 20, this.posY - 50);
     this.ctx.restore();
-    /*
-    if (celebration) {
-      if (celebration % 5 === 0 && celebration) {
-        this.posY = this.posY - 20;
-      } else {
-        this.posY = this.gameHeight - this.height
-      }
-    }*/
   }
 
   celebrationIndex() {
