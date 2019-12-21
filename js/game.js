@@ -1,6 +1,7 @@
 class Game {
-  constructor(button) {
+  constructor(button, note) {
     this.button = button;
+    this.note = note;
 
     this.canvas = undefined;
     this.ctx = undefined;
@@ -210,7 +211,7 @@ class Game {
   gameOver() {
     if (this.player.lives === 0) {
       this.lastAnimation = true;
-      toggleVideo();
+      this.toggleVideo();
       updateNote.innerText = "Game Over";
       this.button.innerText = "restart";
     }
@@ -267,5 +268,40 @@ class Game {
         (a.strokeStyle = "#ff4a4a"),
         a.rect(...e[r].bbox),
         a.stroke();
+  }
+
+  toggleVideo() {
+    if (!this.isVideo) {
+      this.note.innerText = "Starting video";
+      this.startVideo();
+    } else {
+      this.note.innerText = "Stopping video";
+      handTrack.stopVideo(game.video);
+      this.isVideo = false;
+      this.innerText = "Video stopped";
+    }
+  }
+
+  startVideo() {
+    handTrack.startVideo(this.video).then(function(status) {
+      //console.log("video started", status);
+      if (status) {
+        game.note.innerText = "Now playing";
+        game.isVideo = true;
+      } else {
+        game.note.innerText = "Please enable video";
+      }
+    });
+  }
+
+  toggleButton() {
+    if (
+      this.button.innerText == "start" ||
+      this.button.innerText == "restart"
+    ) {
+      this.button.innerText = "pause";
+    } else {
+      this.button.innerText = "start";
+    }
   }
 }
