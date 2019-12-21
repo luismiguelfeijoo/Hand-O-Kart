@@ -5,7 +5,7 @@ let startMessage = document.getElementsByClassName("small").item(0);
 
 // Load the model.
 window.onload = function() {
-  game = new Game();
+  game = new Game(trackButton);
   handTrack.load(game.modelParams).then(lmodel => {
     // detect objects in the image.
     model = lmodel;
@@ -45,7 +45,7 @@ function toggleVideo() {
 }
 
 function toggleButton() {
-  if (trackButton.innerText == "start") {
+  if (trackButton.innerText == "start" || trackButton.innerText == "restart") {
     trackButton.innerText = "pause";
   } else {
     trackButton.innerText = "start";
@@ -55,7 +55,7 @@ function toggleButton() {
 trackButton.addEventListener("click", function() {
   intro.classList.add("hide");
   if (trackButton.innerText == "restart") {
-    game = new Game();
+    game = new Game(trackButton);
     game.restart = true;
   }
   toggleVideo();

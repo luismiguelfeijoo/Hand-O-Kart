@@ -1,5 +1,7 @@
 class Game {
-  constructor() {
+  constructor(button) {
+    this.button = button;
+
     this.canvas = undefined;
     this.ctx = undefined;
 
@@ -210,7 +212,7 @@ class Game {
       this.lastAnimation = true;
       toggleVideo();
       updateNote.innerText = "Game Over";
-      trackButton.innerText = "restart";
+      this.button.innerText = "restart";
     }
   }
 
