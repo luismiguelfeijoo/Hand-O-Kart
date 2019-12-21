@@ -198,9 +198,9 @@ class Game {
             this.player.message = "-1";
             this.celebrationAlpha = 1;
             this.player.crashSound[this.crashIndex].play();
+            if (this.crashIndex < 2) this.crashIndex++;
+            return true;
           }
-          if (this.crashIndex < 2) this.crashIndex++;
-          return true;
         } else {
           return false;
         }
