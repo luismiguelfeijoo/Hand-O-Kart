@@ -5,7 +5,7 @@ let startMessage = document.getElementsByClassName("small").item(0);
 
 // Load the model.
 window.onload = function() {
-  game = new Game();
+  game = new Game(trackButton, updateNote);
   handTrack.load(game.modelParams).then(lmodel => {
     // detect objects in the image.
     model = lmodel;
@@ -20,6 +20,18 @@ window.onload = function() {
   });
 };
 
+trackButton.addEventListener("click", function() {
+  intro.classList.add("hide");
+  if (trackButton.innerText == "restart") {
+    game = new Game(trackButton, updateNote);
+    game.restart = true;
+  }
+  game.toggleVideo();
+  game.init();
+  game.toggleButton();
+});
+
+/*
 function startVideo() {
   handTrack.startVideo(game.video).then(function(status) {
     //console.log("video started", status);
@@ -45,20 +57,9 @@ function toggleVideo() {
 }
 
 function toggleButton() {
-  if (trackButton.innerText == "start") {
+  if (trackButton.innerText == "start" || trackButton.innerText == "restart") {
     trackButton.innerText = "pause";
   } else {
     trackButton.innerText = "start";
   }
-}
-
-trackButton.addEventListener("click", function() {
-  intro.classList.add("hide");
-  if (trackButton.innerText == "restart") {
-    game = new Game();
-    game.restart = true;
-  }
-  toggleVideo();
-  game.init();
-  toggleButton();
-});
+}*/
