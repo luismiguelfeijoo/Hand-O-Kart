@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "lib": ["DOM"],
+    "incremental": true,
+    "target": "es2022",
+    "module": "ESNext",
+    "outDir": "dist",
+    "rootDir": "src",
+    "strict": true,
+    "moduleResolution": "node",
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true
+  }
+}

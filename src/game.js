@@ -1,4 +1,12 @@
-class Game {
+import * as handTrack from 'handtrackjs';
+import { Background } from './background';
+import { Player } from './player';
+import { Obstacle } from './obstacle';
+import { InitialAnimation } from './initialAnimation';
+import { ScoreBoard } from './scoreboard';
+import { BlackBackground } from './blackBackground';
+
+export class Game {
   constructor(button, note) {
     this.button = button;
     this.note = note;
@@ -6,9 +14,9 @@ class Game {
     this.canvas = undefined;
     this.ctx = undefined;
 
-    this.video = document.getElementById("myvideo");
-    this.videoCanvas = document.getElementById("videoCanvas");
-    this.videoCanvasCtx = videoCanvas.getContext("2d");
+    this.video = document.getElementById('myvideo');
+    this.videoCanvas = document.getElementById('videoCanvas');
+    this.videoCanvasCtx = videoCanvas.getContext('2d');
 
     this.width = undefined;
     this.height = undefined;
@@ -24,9 +32,9 @@ class Game {
 
     this.modelParams = {
       flipHorizontal: true, // flip e.g for video
-      maxNumBoxes: 1, // maximum number of boxes to detect
+      maxNumBoxes: 5, // maximum number of boxes to detect
       iouThreshold: 0.5, // ioU threshold for non-max suppression
-      scoreThreshold: 0.7 // confidence threshold for predictions.
+      scoreThreshold: 0.6 // confidence threshold for predictions.
     };
     this.over = false;
     this.obstacleCollision = 0;
@@ -40,13 +48,13 @@ class Game {
     this.restart = false;
 
     this.music = new Audio();
-    this.music.src = "./sounds/music.mp3";
+    this.music.src = './sounds/music.mp3';
     this.music.loop = true;
   }
 
   init() {
-    this.canvas = document.getElementById("canvas");
-    this.ctx = this.canvas.getContext("2d");
+    this.canvas = document.getElementById('canvas');
+    this.ctx = this.canvas.getContext('2d');
     this.width = window.innerWidth;
     this.height = window.innerHeight;
     this.canvas.width = this.width;
@@ -65,7 +73,7 @@ class Game {
     let count = 0; //to set a delay on runDetection()
     let proof = -20;
     let dif = 5;
-    let refresh = function(timestamp) {
+    let refresh = function (timestamp) {
       delta = timestamp - past;
       past = timestamp;
       this.clear();
@@ -143,7 +151,7 @@ class Game {
 
   drawAll(timestamp) {
     this.background.draw();
-    this.obstacles.forEach(obstacle => obstacle.draw(timestamp));
+    this.obstacles.forEach((obstacle) => obstacle.draw(timestamp));
     this.player.draw();
     ScoreBoard.draw(this.score, this.player.lives);
     BlackBackground.draw(this.alpha);
@@ -152,7 +160,7 @@ class Game {
 
   moveAll(delta) {
     this.player.move(this.midval, delta);
-    this.obstacles.forEach(obstacle => obstacle.move(delta));
+    this.obstacles.forEach((obstacle) => obstacle.move(delta));
     if (!this.restart) this.initialAnimation.move();
   }
 
@@ -165,13 +173,13 @@ class Game {
 
   clearObstacles() {
     //console.log(this.obstacles)
-    this.obstacles = this.obstacles.filter(obstacle => {
+    this.obstacles = this.obstacles.filter((obstacle) => {
       if (obstacle.posY + obstacle.height / 2 <= this.height) {
         return true;
       } else {
         if (!obstacle.crash && !this.lastAnimation) {
           this.score++;
-          this.player.message = "+1";
+          this.player.message = '+1';
           this.celebrationAlpha = 1;
           this.player.celebrationSound[this.player.celebrationIndex()].play();
         }
@@ -182,7 +190,7 @@ class Game {
 
   isCollision() {
     // return this.obstacles.some(obs => (this.player.posX + this.player.width > obs.posX && obs.posX + obs.width > this.player.posX ))
-    return this.obstacles.some(obs => {
+    return this.obstacles.some((obs) => {
       if (this.obstacleCollision != obs.creationTime) {
         if (
           this.player.posX + this.player.width / 2 > obs.posX - obs.width / 2 &&
@@ -195,7 +203,7 @@ class Game {
             this.player.lives--;
             obs.crash = true;
             this.crash = 20;
-            this.player.message = "-1";
+            this.player.message = '-1';
             this.celebrationAlpha = 1;
             this.player.crashSound[this.crashIndex].play();
             if (this.crashIndex < 2) this.crashIndex++;
@@ -212,8 +220,8 @@ class Game {
     if (this.player.lives === 0) {
       this.lastAnimation = true;
       this.toggleVideo();
-      updateNote.innerText = "Game Over";
-      this.button.innerText = "restart";
+      updateNote.innerText = 'Game Over';
+      this.button.innerText = 'restart';
     }
   }
 
@@ -231,7 +239,20 @@ class Game {
   }
 
   runDetection() {
-    model.detect(this.video).then(predictions => {
+    this.model.detect(this.video).then((predictions) => {
+      console.log(predictions);
+      const firstHand = predictions
+        ?.sort((a, b) => a.score - b.score)
+        .find((prediction) => {
+          if (prediction.label !== 'face' && prediction.score > 0.6) {
+            prediction.main = true;
+            return true;
+          } else {
+            prediction.main = false;
+            return false;
+          }
+        });
+
       //to render on top of video
       this.renderPredictions(
         predictions,
@@ -240,7 +261,7 @@ class Game {
         this.video
       );
       // set the value x of the hand
-      if (predictions[0]) {
+      if (firstHand) {
         this.midval = predictions[0].bbox[0] + predictions[0].bbox[2] / 2;
       }
     });
@@ -249,59 +270,61 @@ class Game {
   //modified model.renderPredictions method from the handtrack.js library
   //renderPredictions(predictions, canvas, context, video)
   renderPredictions(e, t, a, n) {
-    a.clearRect(0, 0, t.width, t.height),
-      (t.width = n.width),
-      (t.height = n.height),
-      a.save(),
-      this.modelParams.flipHorizontal &&
-        (a.scale(-1, 1), a.translate(-n.width, 0)),
-      a.drawImage(n, 0, 0, n.width, n.height),
-      a.restore(),
-      (a.font = "15px Arial"); // console.log('number of detections: ', predictions.length);
+    a.clearRect(0, 0, t.width, t.height);
+    t.width = n.width;
+    t.height = n.height;
+    a.save();
+    this.modelParams.flipHorizontal &&
+      (a.scale(-1, 1), a.translate(-n.width, 0));
+    a.drawImage(n, 0, 0, n.width, n.height);
+    a.restore();
+    a.font = '15px Arial'; // console.log('number of detections: ', predictions.length);
     for (
       let r = 0;
       r < e.length;
       r++ // draw a dot at the center of bounding box
-    )
-      a.beginPath(),
-        (a.lineWidth = 3),
-        (a.strokeStyle = "#ff4a4a"),
-        a.rect(...e[r].bbox),
-        a.stroke();
+    ) {
+      a.beginPath();
+      a.lineWidth = 3;
+      console.log('painting', e.main);
+      a.strokeStyle = e[r].main ? '#fff04aff' : '#ff4a4a';
+      a.rect(...e[r].bbox);
+      a.stroke();
+    }
   }
 
   toggleVideo() {
     if (!this.isVideo) {
-      this.note.innerText = "Starting video";
+      this.note.innerText = 'Starting video';
       this.startVideo();
     } else {
-      this.note.innerText = "Stopping video";
+      this.note.innerText = 'Stopping video';
       handTrack.stopVideo(game.video);
       this.isVideo = false;
-      this.innerText = "Video stopped";
+      this.innerText = 'Video stopped';
     }
   }
 
   startVideo() {
-    handTrack.startVideo(this.video).then(function(status) {
+    handTrack.startVideo(this.video).then(function (status) {
       //console.log("video started", status);
       if (status) {
-        game.note.innerText = "Now playing";
+        game.note.innerText = 'Now playing';
         game.isVideo = true;
       } else {
-        game.note.innerText = "Please enable video";
+        game.note.innerText = 'Please enable video';
       }
     });
   }
 
   toggleButton() {
     if (
-      this.button.innerText == "start" ||
-      this.button.innerText == "restart"
+      this.button.innerText == 'start' ||
+      this.button.innerText == 'restart'
     ) {
-      this.button.innerText = "pause";
+      this.button.innerText = 'pause';
     } else {
-      this.button.innerText = "start";
+      this.button.innerText = 'start';
     }
   }
 }

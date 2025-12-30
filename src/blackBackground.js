@@ -1,4 +1,4 @@
-const BlackBackground = {
+export const BlackBackground = {
   ctx: undefined,
 
   gameWidth: undefined,

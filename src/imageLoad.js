@@ -1,4 +1,4 @@
-const LoadFiles = {
+export const LoadFiles = {
   images: [
     "./img/items.png",
     "./img/Mario Kart.png",

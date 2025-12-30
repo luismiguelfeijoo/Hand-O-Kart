@@ -1,4 +1,4 @@
-class InitialAnimation {
+export class InitialAnimation {
   constructor(ctx, gameWidth, gameHeight) {
     this.ctx = ctx;
     this.gameWidth = gameWidth;

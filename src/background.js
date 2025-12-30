@@ -1,4 +1,4 @@
-class Background {
+export class Background {
   constructor(ctx, width, height) {
     this.ctx = ctx;
     this.width = width;

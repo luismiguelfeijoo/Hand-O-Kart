@@ -1,4 +1,4 @@
-const ScoreBoard = {
+export const ScoreBoard = {
   ctx: undefined,
   score: undefined,
   lives: undefined,

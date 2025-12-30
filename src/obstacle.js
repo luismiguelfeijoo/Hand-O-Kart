@@ -1,4 +1,4 @@
-class Obstacle {
+export class Obstacle {
   constructor(ctx, gameWidth, gameHeight, timestamp, delta) {
     this.ctx = ctx;
 

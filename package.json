@@ -1,0 +1,21 @@
+{
+  "name": "hand-o-kart",
+  "version": "1.0.0",
+  "description": "[![](https://i.imgur.com/oobrhc1.png)](https://luismiguelfeijoo.github.io/Hand-O-Kart/index.html)",
+  "main": "index.js",
+  "scripts": {
+    "dev": "vite",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "ghbuild": "vite build --outDir docs --base=/hand-o-kart"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "handtrackjs": "^0.1.5",
+    "vite": "^7.3.0"
+  },
+  "devDependencies": {
+    "@types/node": "^25.0.3",
+    "typescript": "^5.9.3"
+  }
+}
